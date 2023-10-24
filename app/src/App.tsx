@@ -56,15 +56,16 @@ function App() {
   };
   const handleTodoEdit = (id: number, newText: string) => {
     const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, text: newText } : todo
+      todo.id == id ? { ...todo, text: newText, isEdit: false } : todo
     );
     setTodos(updatedTodos);
   };
   const handleEdit = (id: number) => {
     const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, isEdit: true } : todo
+      todo.id == id ? { ...todo, isEdit: true } : todo
     );
     setTodos(updatedTodos);
+    console.log("testing", updatedTodos);
   };
   const handleTodoDelete = (id: number) => {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
