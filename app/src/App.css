@@ -1,26 +1,31 @@
-.todo-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+body {
+  /* background-color: #d0bfff; */
+  /* text-align: center; */
+  /* background: linear-gradient(135deg, #50394c, #f4e1d2); */
+  background-image: url("https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dG8lMjBkbyUyMGxpc3R8ZW58MHx8MHx8fDA%3D");
+  background-repeat: no-repeat;
+  /* background-size: cover; */
+ 
 }
-.todo-text {
-  font-size: 18px;
-  flex: 1;
+body:hover{
+  
 }
-.edit-button,
-.delete-button {
-  padding: 8px 15px;
-  background-color: #ff5722;
-  border: none;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.lineThrough {
+  text-decoration: line-through;
 }
 .edit-button {
-  margin-right: 10px;
+  margin-left: 10px;
+  background-color: #3f2e3e;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
 }
-.delete-button:hover,
-.edit-button:hover {
-  background-color: #e64a19;
+.delete-button {
+  margin-left: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
 }

@@ -64,15 +64,16 @@
 // };
 // export default TodoList;
 
-import React, { useState } from "react";
+import React from "react";
 import { ITodo } from "../types";
 import EditForm from "./EditForm";
 interface ITodoList {
   todos: ITodo[];
   extraCss?: string;
-  onTodoDelete: (id: number) => void;
-  onTodoEdit: (id: number, newText: string) => void;
-  handleEdit: (id: number) => void;
+  onTodoDelete: (id: Number) => void;
+  onTodoEdit: (id: Number, newText: string) => void;
+  handleDone: (id: Number, newText: string) => void;
+  handleEdit: (id: Number) => void;
 }
 const TodoList: React.FC<ITodoList> = ({
   todos,
@@ -80,7 +81,16 @@ const TodoList: React.FC<ITodoList> = ({
   onTodoDelete,
   onTodoEdit,
   handleEdit,
+  handleDone,
 }) => {
+  function handleCheckbox(e: React.ChangeEvent<HTMLInputElement>, id: Number) {
+    if (e.target.checked) {
+      handleDone(id, "done");
+    } else {
+      handleDone(id, "undone");
+    }
+  }
+
   return (
     <ul className={extraCss}>
       {todos.map((t) => (
@@ -93,10 +103,31 @@ const TodoList: React.FC<ITodoList> = ({
               }}
             />
           ) : (
-            <div>
-              {t.text}
-              <button onClick={() => handleEdit(t.id)}>Edit</button>
-              <button onClick={() => onTodoDelete(t.id)}>Delete</button>
+            <div className="beauty">
+              <div>
+                <input
+                  type="checkbox"
+                  checked={t.isDone}
+                  onChange={(e) => handleCheckbox(e, t.id)}
+                />
+                {t.isDone ? (
+                  <span className="lineThrough">{t.text}</span>
+                ) : (
+                  <span>{t.text}</span>
+                )}
+                <button
+                  className="edit-button"
+                  onClick={() => handleEdit(t.id)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="delete-button"
+                  onClick={() => onTodoDelete(t.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           )}
         </li>

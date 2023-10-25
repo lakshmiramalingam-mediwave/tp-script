@@ -39,38 +39,61 @@
 // }
 // export default App;
 
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
 import { ITodo } from "./types";
 import "./App.css";
 function App() {
-  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>(getFromLocalStorage());
+  useEffect(() => {
+    localStorage.setItem("my-todos", JSON.stringify(todos));
+  }, [todos]);
+  function getFromLocalStorage(): ITodo[] {
+    const storedData = localStorage.getItem("my-todos");
+    if (storedData) {
+      return JSON.parse(storedData);
+    } else {
+      return [];
+    }
+  }
+  // const [todos, setTodos] = useState<ITodo[]>([]);
   const handleTodoAdd = (str: string) => {
     const newTodo: ITodo = {
       text: str,
       id: new Date().getTime(),
       isEdit: false,
+      isDone: false,
     };
     setTodos([...todos, newTodo]);
   };
-  const handleTodoEdit = (id: number, newText: string) => {
+  const handleTodoEdit = (id: Number, newText: string) => {
     const updatedTodos = todos.map((todo) =>
       todo.id == id ? { ...todo, text: newText, isEdit: false } : todo
     );
     setTodos(updatedTodos);
   };
-  const handleEdit = (id: number) => {
+  const handleEdit = (id: Number) => {
     const updatedTodos = todos.map((todo) =>
       todo.id == id ? { ...todo, isEdit: true } : todo
     );
     setTodos(updatedTodos);
     console.log("testing", updatedTodos);
   };
-  const handleTodoDelete = (id: number) => {
+  const handleTodoDelete = (id: Number) => {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
   };
+
+  function handleDone(id: Number, type: string) {
+    const updatedItems = [...todos];
+    const findindex = updatedItems.findIndex((nt) => nt.id === id);
+    if (findindex !== -1) {
+      if (type == "done") updatedItems[findindex]["isDone"] = true;
+      else updatedItems[findindex]["isDone"] = false;
+    }
+    setTodos(updatedItems);
+  }
   return (
     <div>
       <h1> My Todos</h1>
@@ -81,6 +104,7 @@ function App() {
         onTodoDelete={handleTodoDelete}
         onTodoEdit={handleTodoEdit}
         handleEdit={(id) => handleEdit(id)}
+        handleDone={handleDone}
       />
     </div>
   );
